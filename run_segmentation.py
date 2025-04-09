@@ -82,6 +82,8 @@ parser.add_argument('--save_folder', default='a', type=str, help='output_folder'
 parser.add_argument('--model_feature', default=96, type=int, help='model_imbeding_feature size')
 parser.add_argument('--scale_intensity', action='store_true', help='')
 parser.add_argument('--use_smit', default=0, type=int, help='use smit model')
+parser.add_argument('--use_smit_light', default=0, type=int, help='use smit model')
+
 
 
 # copy spacing and orientation info between sitk objects
@@ -193,6 +195,13 @@ def main():
         model = smit.SMIT_3D_Seg(config,
                                  out_channels=args.out_channels,
                                  norm_name='instance')
+    elsif args.use_smit_light ==1:
+	model = smit_plus.SMIT_Light(out_channels=args.out_channels,
+                                    in_channels=args.in_channels,
+                                    norm_name='instance',
+                                    feature_size=96)
+	
+	
     else:
         model = smit_plus.SMIT_Plus(out_channels=args.out_channels,
                                     in_channels=args.in_channels,
